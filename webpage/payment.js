@@ -98,10 +98,21 @@ class Pix {
 var payload = "";
 
 function formatCurrency(input) {
-  input = input.replace(/\D/g, "");
-  let value = parseFloat(input);
-  return "R$ " + value.toFixed(2);
+  // Remove non-digit characters and leading zeros
+  input = input.replace(/\D/g, "").replace(/^0+/, "");
+  
+  // If the input is empty, return "R$ 0,00"
+  if (input === "") {
+    return "R$ 0,00";
+  }
+  
+  // Convert to a number and divide by 100 to get the correct decimal placement
+  let value = parseFloat(input) / 100;
+  
+  // Format the number with Brazilian locale and currency style
+  return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
+
 
 document.getElementById("pix_value").addEventListener("input", function () {
   this.value = formatCurrency(this.value);
@@ -109,25 +120,27 @@ document.getElementById("pix_value").addEventListener("input", function () {
 });
 
 function generateQRCode() {
-  var rawPixValue = document.getElementById("pix_value").value;
-  var pixValue =
-    parseFloat(rawPixValue.replace("R$", "").trim().replace(",", ".")) || 0;
+  // var rawPixValue = document.getElementById("pix_value").value;
+  // var pixValue =
+  //   parseFloat(rawPixValue.replace("R$", "").trim().replace(",", ".")) || 0;
 
-  var pixKey = "felipe@publio.dev";
-  var description = "Presente de Casamento";
-  var merchantName = "FELIPE CANTON DE OLIVEIRA PU";
-  var merchantCity = "SAOPAULO";
-  var txid = "CASAMENTO" + Date.now();
+  // var pixKey = "felipe@publio.dev";
+  // var description = "Presente de Casamento";
+  // var merchantName = "FELIPE CANTON DE OLIVEIRA PU";
+  // var merchantCity = "SAOPAULO";
+  // var txid = "CASAMENTO" + Date.now();
 
-  const pix = new Pix(
-    pixKey,
-    description,
-    merchantName,
-    merchantCity,
-    txid,
-    pixValue
-  );
-  payload = pix.getPayload();
+  // const pix = new Pix(
+  //   pixKey,
+  //   description,
+  //   merchantName,
+  //   merchantCity,
+  //   txid,
+  //   pixValue
+  // );
+  // payload = pix.getPayload();
+
+  payload = "00020126710014BR.GOV.BCB.PIX0117felipe@publio.dev0228PRESENTE CASAMENTO PUBLIODEV5204000053039865802BR5925FELIPE CANTON OLIVEIRA PU6009SAO PAULO622605222sFP2RyHGcpTxpOxfv6K9D63046CDE"
 
   displayQRCode(payload);
   displayPixCopy(payload);
@@ -228,7 +241,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var amount = getUrlParameter("amount");
   if (amount) {
     var pixValueInput = document.getElementById("pix_value");
-    pixValueInput.value = formatCurrency(amount);
+    pixValueInput.value = formatCurrency(amount + "00");
     generateQRCode();
   }
 });

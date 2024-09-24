@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gabriela & Felipe - Pagamento</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="payment.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1>Gabriela & Felipe</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="gifts.html">Presentes</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+
+    <main class="container">
+        <h1>Envie Seu Presente</h1>
+        <form id="payment-form">
+            <div>
+                <label for="name">Nome:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div>
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div>
+                <label for="pix_value">Valor do Presente:</label>
+                <input type="text" id="pix_value" name="pix_value" required>
+            </div>
+            <div id="pix-info">
+                <h2>Pagamento via PIX</h2>
+                <p>Escaneie o QR code abaixo para fazer o pagamento:</p>
+                <div id="qr-code-container"></div>
+                <p>Chave PIX: felipe@publio.dev</p>
+                <div class="pix-copy-container">
+                    <input type="text" id="pix-copy" readonly>
+                    <button type="button" id="copy_payload_button" class="button">Copiar</button>
+                </div>
+                <p id="copy_success_message" style="display: none;">Código PIX copiado com sucesso!</p>
+            </div>
+            <p class="next-step-message">Após realizar o pagamento via PIX, clique no botão abaixo para confirmar:</p>
+            <button type="submit" class="button confirm-payment-button">Confirmar Pagamento</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Gabriela & Felipe. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="payment.js"></script>
+</body>
+</html>
